@@ -25,13 +25,7 @@ def index(request):
 
 
 def about(request):
-    # Construct a dictionary to pass to the template engine as its context.
-    # Note the key boldmessage matches to {{ boldmessage }} in the template!
-    context_dict = {'boldmessage': 'This tutorial has been put together by Kevin'}
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
-    return render(request, 'rango/about.html', context=context_dict)
+    return render(request, 'rango/about.html')
 
 
 def show_category(request, category_name_slug):
@@ -75,7 +69,7 @@ def add_category(request):
             form.save(commit=True)
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
@@ -93,7 +87,7 @@ def add_page(request, category_name_slug):
 
     # You cannot add a page to a Category that does not exist...
     if category is None:
-        return redirect('/rango/')
+        return redirect(reverse('rango:index'))
 
     form = PageForm()
 
